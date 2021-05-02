@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
 	"xss_challenge/lvl1"
@@ -8,7 +9,9 @@ import (
 	"xss_challenge/root"
 )
 
+
 func main() {
+	var address = "127.0.0.1:8000"
 	var r = mux.NewRouter()
 
 	var rootRouter = r.PathPrefix("").Subrouter()
@@ -23,9 +26,9 @@ func main() {
 	lvl2Router.HandleFunc("/login", lvl2.LoginHandler).Methods("POST")
 	lvl2Router.HandleFunc("/logout", lvl2.LogoutHandler).Methods("POST")
 
-
-
 	http.Handle("/", r)
 	http.Handle("/static/", http.StripPrefix("/static/" ,http.FileServer(http.Dir("./static"))))
-	http.ListenAndServe(":8000", nil)
+	fmt.Printf("_____________________________________________________________________________________________" +
+		"\nListening at %s", address)
+	http.ListenAndServe(address, nil)
 }
