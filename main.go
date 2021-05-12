@@ -22,9 +22,7 @@ func main() {
 
 	var lvl2Router = r.PathPrefix("/lvl2").Subrouter()
 	lvl2Router.HandleFunc("", lvl2.IndexHandler)
-	lvl2Router.HandleFunc("/internal", lvl2.InternalHandler)
-	lvl2Router.HandleFunc("/login", lvl2.LoginHandler).Methods("POST")
-	lvl2Router.HandleFunc("/logout", lvl2.LogoutHandler).Methods("POST")
+
 
 	http.Handle("/", r)
 	http.Handle("/static/", http.StripPrefix("/static/" ,http.FileServer(http.Dir("./static"))))

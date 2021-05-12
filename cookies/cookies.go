@@ -6,6 +6,16 @@ import (
 	"time"
 )
 
+// From docs:
+// GenerateRandomKey creates a random key with the given length in bytes.
+// On failure, returns nil.
+//
+// Note that keys created using `GenerateRandomKey()` are not automatically
+// persisted. New keys will be created when the application is restarted, and
+// previously issued cookies will not be able to be decoded.
+//
+// Callers should explicitly check for the possibility of a nil return, treat
+// it as a failure of the system random number generator, and not continue.
 var cookieHandler = securecookie.New(
 	securecookie.GenerateRandomKey(64),
 	securecookie.GenerateRandomKey(32))
@@ -13,7 +23,8 @@ var cookieHandler = securecookie.New(
 func GetCookie(cookieName string, request *http.Request) (val string) {
 	if cookie, err := request.Cookie(cookieName); err == nil {
 		cookieValue := ""
-		if err = cookieHandler.Decode(cookieName, cookie.Value, &cookieValue); err == nil {
+		err = cookieHandler.Decode(cookieName, cookie.Value, &cookieValue);
+		if err == nil {
 			return cookieValue
 		}
 	}

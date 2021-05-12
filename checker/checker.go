@@ -3,6 +3,7 @@ package checker
 import (
 	"fmt"
 	"github.com/tebeka/selenium"
+	"net/http"
 	"os"
 )
 
@@ -40,15 +41,27 @@ func _GetWebDriver() selenium.WebDriver {
 	return wd
 }
 
-func PayloadWasExecuted(host string, uri string) bool {
-	if err := wd.Get(fmt.Sprintf("http://%s%s&bot=1", host, uri)); err != nil {
-		panic(err)
+func PayloadWasExecuted(r *http.Request, anchor string) bool {
+	host := r.Host
+	path := r.URL.Path
+	params := r.URL.RawQuery
+	if params == "" {
+		params = "bot=1"
+	} else {
+		params += "&bot=1"
 	}
 
+	wd.DeleteAllCookies()
+	wd.Get(fmt.Sprintf("http://%s%s?%s%s", host, path, params, anchor))
 	_, err := wd.AlertText()
+
+	if err != nil {
+		wd.Refresh()
+		_, err = wd.AlertText()
+	}
+
 	if err != nil {
 		return false
-	} else {
-		return true
 	}
+	return true
 }

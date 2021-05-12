@@ -7,17 +7,18 @@ import (
 	"xss_challenge/cookies"
 )
 
+var indexTempl = template.Must(template.ParseFiles("./lvl1/templ/index.html"))
+var responseTempl = template.Must(template.ParseFiles("./lvl1/templ/response.html"))
+var successResponseTempl = template.Must(template.ParseFiles("./lvl1/templ/successResponse.html"))
+
 func IndexHandler(response http.ResponseWriter, request *http.Request) {
 	query, queryOk := request.URL.Query()["query"]
 	bot, botOk := request.URL.Query()["bot"]
-	indexTempl := template.Must(template.ParseFiles("./lvl1/templ/index.html"))
-	responseTempl := template.Must(template.ParseFiles("./lvl1/templ/response.html"))
-	successResponseTempl := template.Must(template.ParseFiles("./lvl1/templ/successResponse.html"))
 
 	if queryOk && len(query[0]) > 0 {
 		if botOk && len(bot[0]) > 0 {
 			responseTempl.Execute(response, query[0])
-		} else if checker.PayloadWasExecuted(request.Host, request.URL.RequestURI()) {
+		} else if checker.PayloadWasExecuted(request, "") {
 			cookies.SetCookie("lvl2", "access", response)
 			successResponseTempl.Execute(response, query[0])
 		} else {

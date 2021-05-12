@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+    <!-- Load jQuery -->
+    <link rel="stylesheet" href="/static/lvl2/styles.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script>
+        function chooseTab(num) {
+            // Dynamically load the appropriate image.
+            var html = "Image " + parseInt(num) + "<br>";
+            html += "<img src='/static/lvl2/pic" + num + ".jpeg' />";
+            $('#tabContent').html(html);
+
+            window.location.hash = num;
+
+            // Select the current tab
+            var tabs = document.querySelectorAll('.tab');
+            for (var i = 0; i < tabs.length; i++) {
+                if (tabs[i].id == "tab" + parseInt(num)) {
+                    tabs[i].className = "tab active";
+                } else {
+                    tabs[i].className = "tab";
+                }
+            }
+        }
+
+        window.onload = function() {
+            chooseTab(unescape(self.location.hash.substr(1)) || "1");
+        }
+
+        window.onhashchange = function(){
+            document.cookie = `hash=${self.location.hash.substr(1)}`
+        };
+
+        window.onclose = function (){
+            document.cookie = "hash="
+        }
+    </script>
+    <title></title>
+
+</head>
+<body id="level3">
+<div id="header">
+    <a>Take a tour of our cloud data center.</a>
+</div>
+
+<div class="tab" id="tab1" onclick="chooseTab('1')">Image 1</div>
+<div class="tab" id="tab2" onclick="chooseTab('2')">Image 2</div>
+<div class="tab" id="tab3" onclick="chooseTab('3')">Image 3</div>
+
+<div id="tabContent"> </div>
+
+<p></p>
+<p>Congrats!</p>
+<a href='/lvl2'>Advance to next lvl </a>
+</body>
+</html>
+
+
