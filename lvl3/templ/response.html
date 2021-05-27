@@ -4,15 +4,16 @@
 </head>
 <body id="level2">
 <div>
-
     <form action="" method="GET">
-        <input id="query" name="query" value="Что будем искать?" onfocus="this.value=''">
-        <input id="button" type="submit" value="Искать">
+        <input id="query" name="query" value="{{.}}" onfocus="this.value=''">
+        <input id="button" type="submit" value="Search">
     </form>
+    Ой ничего не найдено.
+
     <p></p>
     <input id="hint_but" type="submit" value="Подсказка" onclick="document.getElementById('hint').style.visibility = 'visible'">
     <div id="hint" style="visibility: hidden">
-        <p>кавычка и что-то еще..</p>
+        <p>теги скриптов экранируются</p>
     </div>
 </div>
 </body>

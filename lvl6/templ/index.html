@@ -14,7 +14,7 @@
     <input id="hint_but" type="submit" value="Подсказка"
            onclick="document.getElementById('hint').style.visibility = 'visible'">
     <div id="hint" style="visibility: hidden">
-        <p>самый простой xss</p>
+        <p>оказывается, надо использовать html/template, но что если попробовать {{`{{printf "%s" "ssti" }}`}}</p>
     </div>
 </div>
 </body>

@@ -10,10 +10,7 @@ import (
 var wd = _GetWebDriver()
 
 func _GetWebDriver() selenium.WebDriver {
-	// Start a Selenium WebDriver server instance (if one is not already
-	// running).
 	const (
-		// These paths will be different on your system.
 		seleniumPath    = "/home/n30/go/src/github.com/tebeka/selenium/vendor/selenium-server.jar"
 		geckoDriverPath = "/home/n30/go/src/github.com/tebeka/selenium/vendor/geckodriver"
 		port            = 4000
@@ -28,7 +25,6 @@ func _GetWebDriver() selenium.WebDriver {
 	if err != nil {
 		panic(err) // panic is used only as an example and is not otherwise recommended.
 	}
-	//defer service.Stop()
 
 	// Connect to the WebDriver instance running locally.
 	caps := selenium.Capabilities{"browserName": "firefox"}
@@ -36,7 +32,6 @@ func _GetWebDriver() selenium.WebDriver {
 	if err != nil {
 		panic(err)
 	}
-	//defer wd.Quit()
 
 	return wd
 }
@@ -59,7 +54,6 @@ func PayloadWasExecuted(r *http.Request, anchor string) bool {
 		wd.Refresh()
 		_, err = wd.AlertText()
 	}
-
 	if err != nil {
 		return false
 	}
